@@ -4,7 +4,7 @@ import { playHoverSound, playClickSound } from '../lib/audio';
 export function FinalCTA() {
   return (
     <section className="py-48 px-6 relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#7C3AED]/5 pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#E56B30]/5 pointer-events-none" />
       
       <motion.div 
         initial={{ opacity: 0, y: 40 }}
@@ -19,7 +19,7 @@ export function FinalCTA() {
         <button 
           onMouseEnter={playHoverSound}
           onClick={playClickSound}
-          className="group relative inline-flex items-center justify-center px-12 py-5 text-base font-medium text-white transition-all rounded-full bg-gradient-to-r from-[#7C3AED] to-[#3B82F6] hover:opacity-90 hover:scale-105 active:scale-95 shadow-[0_0_40px_-10px_rgba(124,58,237,0.5)]"
+          className="group relative inline-flex items-center justify-center px-12 py-5 text-base font-medium text-white transition-all rounded-full bg-gradient-to-r from-[#E56B30] to-[#F2A65A] hover:opacity-90 hover:scale-105 active:scale-95 shadow-[0_0_40px_-10px_rgba(229,107,48,0.5)]"
         >
           Download Now for macOS
         </button>

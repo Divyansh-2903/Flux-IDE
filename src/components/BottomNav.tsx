@@ -36,7 +36,7 @@ export function BottomNav() {
       <button 
         onMouseEnter={playHoverSound}
         onClick={playClickSound}
-        className="flex items-center gap-2 px-5 py-2 text-sm font-medium text-white transition-all rounded-full bg-gradient-to-r from-[#7C3AED] to-[#3B82F6] hover:opacity-90 active:scale-95 shadow-[0_0_20px_-5px_rgba(124,58,237,0.4)]"
+        className="flex items-center gap-2 px-5 py-2 text-sm font-medium text-white transition-all rounded-full bg-gradient-to-r from-[#E56B30] to-[#F2A65A] hover:opacity-90 active:scale-95 shadow-[0_0_20px_-5px_rgba(229,107,48,0.4)]"
       >
         <Download className="w-4 h-4" />
         <span className="hidden sm:block">Download</span>

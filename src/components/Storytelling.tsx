@@ -34,7 +34,7 @@ export function Storytelling() {
           style={{ scale: visualScale, rotateX: visualRotateX, opacity: visualOpacity }}
           className="absolute inset-0 flex items-center justify-center pointer-events-none perspective-[1000px]"
         >
-          <div className="w-[80vw] md:w-[60vw] h-[60vh] rounded-3xl border border-white/10 bg-gradient-to-b from-white/5 to-transparent backdrop-blur-3xl shadow-[0_0_100px_rgba(124,58,237,0.15)] flex flex-col overflow-hidden transform-style-3d">
+          <div className="w-[80vw] md:w-[60vw] h-[60vh] rounded-3xl border border-white/10 bg-gradient-to-b from-white/5 to-transparent backdrop-blur-3xl shadow-[0_0_100px_rgba(229,107,48,0.15)] flex flex-col overflow-hidden transform-style-3d">
             {/* Fake IDE Header */}
             <div className="h-10 border-b border-white/10 flex items-center px-4 gap-2 bg-white/[0.02]">
               <div className="w-3 h-3 rounded-full bg-[#EF4444]/50" />
@@ -50,7 +50,7 @@ export function Storytelling() {
                
                {/* Glowing accent inside the fake IDE */}
                <motion.div 
-                 className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200px] h-[200px] bg-[#3B82F6] rounded-full blur-[100px] opacity-20"
+                 className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200px] h-[200px] bg-[#E56B30] rounded-full blur-[100px] opacity-20"
                  animate={{ scale: [1, 1.2, 1], opacity: [0.1, 0.3, 0.1] }}
                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
                />
@@ -62,7 +62,7 @@ export function Storytelling() {
         <div className="relative z-10 flex flex-col items-center justify-center w-full max-w-4xl px-6 text-center pointer-events-none">
           <motion.div style={{ opacity: opacity1, y: y1, position: 'absolute' }} className="w-full">
             <h2 className="text-5xl md:text-7xl font-light tracking-tighter text-white mb-6">
-              The IDE, <span className="font-medium bg-clip-text text-transparent bg-gradient-to-r from-[#7C3AED] to-[#3B82F6]">reimagined.</span>
+              The IDE, <span className="font-medium bg-clip-text text-transparent bg-gradient-to-r from-[#F2A65A] to-[#E56B30]">reimagined.</span>
             </h2>
             <p className="text-xl text-[#A1A1AA] font-light max-w-2xl mx-auto">We tore down the bloated editors of the past and built Flux from the ground up.</p>
           </motion.div>
@@ -76,7 +76,7 @@ export function Storytelling() {
 
           <motion.div style={{ opacity: opacity3, y: y3, position: 'absolute' }} className="w-full">
             <h2 className="text-5xl md:text-7xl font-light tracking-tighter text-white mb-6">
-              Infinite <span className="font-medium bg-clip-text text-transparent bg-gradient-to-r from-[#3B82F6] to-[#60A5FA]">power.</span>
+              Infinite <span className="font-medium bg-clip-text text-transparent bg-gradient-to-r from-[#E56B30] to-[#F2A65A]">power.</span>
             </h2>
             <p className="text-xl text-[#A1A1AA] font-light max-w-2xl mx-auto">Native performance meets limitless extensibility.</p>
           </motion.div>

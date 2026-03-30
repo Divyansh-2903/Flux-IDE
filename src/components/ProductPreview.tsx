@@ -16,7 +16,7 @@ export function ProductPreview() {
     <section ref={ref} className="relative px-6 pb-48 mx-auto max-w-7xl perspective-[2000px]">
       <motion.div
         style={{ scale, opacity, rotateX, transformPerspective: 2000 }}
-        className="relative z-10 rounded-2xl border border-white/10 bg-[#0B0B0F]/80 backdrop-blur-2xl overflow-hidden shadow-[0_0_120px_-20px_rgba(124,58,237,0.2)] ring-1 ring-white/5"
+        className="relative z-10 rounded-2xl border border-white/10 bg-[#0B0B0F]/80 backdrop-blur-2xl overflow-hidden shadow-[0_0_120px_-20px_rgba(229,107,48,0.2)] ring-1 ring-white/5"
       >
         {/* Editor Header */}
         <div className="flex items-center px-4 py-4 border-b border-white/5 bg-gradient-to-b from-white/[0.04] to-transparent">
@@ -37,25 +37,25 @@ export function ProductPreview() {
             <div className="text-[10px] font-mono text-[#A1A1AA]/50 mb-6 uppercase tracking-widest">Explorer</div>
             <div className="space-y-3 text-xs font-mono text-[#A1A1AA]/80">
               <div className="flex items-center gap-3 text-white">
-                <span className="text-[#3B82F6] opacity-80">â</span> src
+                <span className="text-[#E56B30] opacity-80">â</span> src
               </div>
               <div className="pl-5 space-y-3 border-l border-white/5 ml-1.5 mt-3">
                 <div className="flex items-center gap-3 text-white">
-                  <span className="text-[#3B82F6] opacity-80">â</span> components
+                  <span className="text-[#E56B30] opacity-80">â</span> components
                 </div>
                 <div className="pl-5 space-y-3 border-l border-white/5 ml-1.5 mt-3">
-                  <div className="flex items-center gap-3 text-white cursor-pointer bg-white/5 -ml-5 pl-5 py-1 rounded-r-md border-l-2 border-[#7C3AED]">
-                    <span className="text-[#3B82F6] opacity-80">â</span> Hero.tsx
+                  <div className="flex items-center gap-3 text-white cursor-pointer bg-white/5 -ml-5 pl-5 py-1 rounded-r-md border-l-2 border-[#E56B30]">
+                    <span className="text-[#E56B30] opacity-80">â</span> Hero.tsx
                   </div>
                   <div className="flex items-center gap-3 hover:text-white cursor-pointer transition-colors">
-                    <span className="text-[#3B82F6] opacity-80">â</span> Navbar.tsx
+                    <span className="text-[#E56B30] opacity-80">â</span> Navbar.tsx
                   </div>
                 </div>
                 <div className="flex items-center gap-3 hover:text-white cursor-pointer transition-colors">
-                  <span className="text-[#3B82F6] opacity-80">â</span> App.tsx
+                  <span className="text-[#E56B30] opacity-80">â</span> App.tsx
                 </div>
                 <div className="flex items-center gap-3 hover:text-white cursor-pointer transition-colors">
-                  <span className="text-[#F59E0B] opacity-80">â</span> index.css
+                  <span className="text-[#F2A65A] opacity-80">â</span> index.css
                 </div>
               </div>
             </div>

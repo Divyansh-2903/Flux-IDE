@@ -9,13 +9,13 @@ function PerformanceGraph() {
       <svg viewBox="0 0 800 200" className="w-full h-full" preserveAspectRatio="none">
         <defs>
           <linearGradient id="lineGrad" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0%" stopColor="#7C3AED" stopOpacity="0" />
-            <stop offset="50%" stopColor="#3B82F6" />
-            <stop offset="100%" stopColor="#60A5FA" />
+            <stop offset="0%" stopColor="#E56B30" stopOpacity="0" />
+            <stop offset="50%" stopColor="#F2A65A" />
+            <stop offset="100%" stopColor="#FFFFFF" />
           </linearGradient>
           <linearGradient id="fillGrad" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#3B82F6" stopOpacity="0.3" />
-            <stop offset="100%" stopColor="#3B82F6" stopOpacity="0" />
+            <stop offset="0%" stopColor="#F2A65A" stopOpacity="0.2" />
+            <stop offset="100%" stopColor="#F2A65A" stopOpacity="0" />
           </linearGradient>
         </defs>
         <motion.path
@@ -40,8 +40,8 @@ function PerformanceGraph() {
           cx="800"
           cy="20"
           r="6"
-          fill="#60A5FA"
-          className="drop-shadow-[0_0_10px_rgba(96,165,250,0.8)]"
+          fill="#FFFFFF"
+          className="drop-shadow-[0_0_10px_rgba(255,255,255,0.8)]"
           initial={{ scale: 0, opacity: 0 }}
           whileInView={{ scale: 1, opacity: 1 }}
           viewport={{ once: true }}
@@ -67,11 +67,11 @@ function FloatingUI() {
         </div>
         <div className="space-y-2">
           <div className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded-sm bg-[#3B82F6]/20" />
+            <div className="w-3 h-3 rounded-sm bg-[#E56B30]/20" />
             <div className="w-24 h-2 rounded bg-white/5" />
           </div>
           <div className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded-sm bg-[#7C3AED]/20" />
+            <div className="w-3 h-3 rounded-sm bg-[#F2A65A]/20" />
             <div className="w-16 h-2 rounded bg-white/5" />
           </div>
         </div>
@@ -83,9 +83,9 @@ function FloatingUI() {
         transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 1 }}
         className="absolute bottom-12 right-32 w-32 p-3 rounded-xl bg-[#111117]/90 border border-white/10 backdrop-blur-md shadow-2xl flex gap-2"
       >
-        <div className="w-6 h-6 rounded-full bg-gradient-to-br from-[#7C3AED] to-[#3B82F6]" />
-        <div className="w-6 h-6 rounded-full bg-gradient-to-br from-[#F59E0B] to-[#EF4444]" />
-        <div className="w-6 h-6 rounded-full bg-gradient-to-br from-[#10B981] to-[#3B82F6]" />
+        <div className="w-6 h-6 rounded-full bg-gradient-to-br from-[#E56B30] to-[#F2A65A]" />
+        <div className="w-6 h-6 rounded-full bg-gradient-to-br from-[#1A1A1A] to-[#333333]" />
+        <div className="w-6 h-6 rounded-full bg-gradient-to-br from-[#E5E5E5] to-[#FFFFFF]" />
       </motion.div>
 
       {/* Code Snippet */}
@@ -95,10 +95,10 @@ function FloatingUI() {
         className="absolute top-32 right-48 w-40 p-4 rounded-xl bg-[#0B0B0F]/90 border border-white/10 backdrop-blur-md shadow-2xl hidden md:block"
       >
         <div className="space-y-2">
-          <div className="w-12 h-2 rounded bg-[#C678DD]/50" />
-          <div className="w-24 h-2 rounded bg-[#98C379]/50 ml-4" />
-          <div className="w-16 h-2 rounded bg-[#61AFEF]/50 ml-4" />
-          <div className="w-8 h-2 rounded bg-[#E06C75]/50" />
+          <div className="w-12 h-2 rounded bg-[#F2A65A]/50" />
+          <div className="w-24 h-2 rounded bg-[#E56B30]/50 ml-4" />
+          <div className="w-16 h-2 rounded bg-white/50 ml-4" />
+          <div className="w-8 h-2 rounded bg-[#F2A65A]/50" />
         </div>
       </motion.div>
     </div>
@@ -173,7 +173,7 @@ export function Features() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-[minmax(300px,auto)]">
         {/* Large Feature - Performance */}
         <BentoCard className="md:col-span-2 md:row-span-2" delay={0}>
-          <div className="flex items-center justify-center w-14 h-14 mb-8 rounded-2xl bg-gradient-to-br from-[#3B82F6]/20 to-transparent border border-[#3B82F6]/20 text-[#3B82F6]">
+          <div className="flex items-center justify-center w-14 h-14 mb-8 rounded-2xl bg-gradient-to-br from-[#E56B30]/20 to-transparent border border-[#E56B30]/20 text-[#E56B30]">
             <Zap className="w-6 h-6" />
           </div>
           <h3 className="text-3xl font-medium mb-4 text-white tracking-tight">Lightning Fast Performance</h3>
@@ -186,7 +186,7 @@ export function Features() {
 
         {/* Medium Feature - UI */}
         <BentoCard delay={0.1}>
-          <div className="flex items-center justify-center w-12 h-12 mb-6 rounded-2xl bg-gradient-to-br from-[#7C3AED]/20 to-transparent border border-[#7C3AED]/20 text-[#7C3AED]">
+          <div className="flex items-center justify-center w-12 h-12 mb-6 rounded-2xl bg-gradient-to-br from-[#F2A65A]/20 to-transparent border border-[#F2A65A]/20 text-[#F2A65A]">
             <Layout className="w-5 h-5" />
           </div>
           <h3 className="text-xl font-medium mb-3 text-white tracking-tight">Minimal UI</h3>
@@ -206,7 +206,7 @@ export function Features() {
         <BentoCard className="md:col-span-3 min-h-[300px]" delay={0.3}>
           <div className="flex flex-col md:flex-row items-center gap-10 relative z-20 h-full">
             <div className="flex-1">
-              <div className="flex items-center justify-center w-12 h-12 mb-6 rounded-2xl bg-gradient-to-br from-[#F59E0B]/20 to-transparent border border-[#F59E0B]/20 text-[#F59E0B]">
+              <div className="flex items-center justify-center w-12 h-12 mb-6 rounded-2xl bg-gradient-to-br from-[#E56B30]/20 to-transparent border border-[#E56B30]/20 text-[#E56B30]">
                 <Settings2 className="w-5 h-5" />
               </div>
               <h3 className="text-2xl font-medium mb-3 text-white tracking-tight">Endlessly Customizable</h3>

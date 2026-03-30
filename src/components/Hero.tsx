@@ -17,60 +17,82 @@ function InteractiveHeroBackground() {
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, [mouseX, mouseY]);
 
-  const springConfig = { damping: 30, stiffness: 100, mass: 3 };
+  const springConfig = { damping: 40, stiffness: 50, mass: 2 };
   const smoothX = useSpring(mouseX, springConfig);
   const smoothY = useSpring(mouseY, springConfig);
 
-  const rotateX = useTransform(smoothY, [-1, 1], [45, -45]);
-  const rotateY = useTransform(smoothX, [-1, 1], [-45, 45]);
+  const x1 = useTransform(smoothX, [-1, 1], [-150, 150]);
+  const y1 = useTransform(smoothY, [-1, 1], [-150, 150]);
+  
+  const x2 = useTransform(smoothX, [-1, 1], [150, -150]);
+  const y2 = useTransform(smoothY, [-1, 1], [150, -150]);
+
+  // Generate random particles
+  const particles = Array.from({ length: 20 }).map((_, i) => ({
+    id: i,
+    size: Math.random() * 4 + 1,
+    x: Math.random() * 100,
+    y: Math.random() * 100,
+    duration: Math.random() * 20 + 10,
+    delay: Math.random() * 5,
+  }));
 
   return (
-    <div className="absolute inset-0 flex items-center justify-center pointer-events-none perspective-[2000px] overflow-hidden">
-      <motion.div
-        style={{ rotateX, rotateY }}
-        className="relative w-[600px] h-[600px] transform-style-3d"
-      >
-        {/* The Core */}
-        {[...Array(6)].map((_, i) => (
+    <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden bg-[#050507]">
+      {/* Deep cinematic vignette */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,#050507_100%)] z-10 opacity-90" />
+      
+      {/* Floating Particles */}
+      <div className="absolute inset-0 z-15">
+        {particles.map((p) => (
           <motion.div
-            key={`outer-${i}`}
-            className="absolute inset-0 border-[2px] border-[#7C3AED]/20 rounded-full mix-blend-screen"
+            key={p.id}
+            className="absolute rounded-full bg-white"
             style={{
-              rotateX: i * 30,
-              rotateY: i * 30,
+              width: p.size,
+              height: p.size,
+              left: `${p.x}%`,
+              top: `${p.y}%`,
+              opacity: 0.1 + Math.random() * 0.3,
+              boxShadow: `0 0 ${p.size * 2}px rgba(255,255,255,0.8)`,
+              x: useTransform(smoothX, [-1, 1], [-(p.size * 10), p.size * 10]),
+              y: useTransform(smoothY, [-1, 1], [-(p.size * 10), p.size * 10]),
             }}
             animate={{
-              rotateZ: 360,
+              y: [`${p.y}%`, `${p.y - 10}%`, `${p.y}%`],
+              opacity: [0.1, 0.4, 0.1],
             }}
             transition={{
-              duration: 20 + i * 5,
+              duration: p.duration,
               repeat: Infinity,
               ease: "linear",
+              delay: p.delay,
             }}
           />
         ))}
-        {[...Array(6)].map((_, i) => (
-          <motion.div
-            key={`inner-${i}`}
-            className="absolute inset-24 border-[1px] border-[#3B82F6]/30 rounded-full mix-blend-screen"
-            style={{
-              rotateX: i * 45,
-              rotateY: i * 45,
-            }}
-            animate={{
-              rotateZ: -360,
-            }}
-            transition={{
-              duration: 15 + i * 5,
-              repeat: Infinity,
-              ease: "linear",
-            }}
-          />
-        ))}
-
-        {/* Center Glow */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200px] h-[200px] bg-gradient-to-br from-[#7C3AED] to-[#3B82F6] rounded-full blur-[80px] opacity-30 animate-pulse" />
-      </motion.div>
+      </div>
+      
+      {/* Cinematic Light Leaks / Aurora */}
+      <motion.div 
+        style={{ x: x1, y: y1 }}
+        animate={{ scale: [1, 1.1, 1], opacity: [0.15, 0.25, 0.15] }}
+        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute top-[-10%] left-[5%] w-[70vw] h-[70vw] max-w-[1000px] max-h-[1000px] bg-[#E56B30] rounded-full blur-[160px] mix-blend-screen" 
+      />
+      <motion.div 
+        style={{ x: x2, y: y2 }}
+        animate={{ scale: [1, 1.15, 1], opacity: [0.1, 0.2, 0.1] }}
+        transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+        className="absolute bottom-[-10%] right-[5%] w-[60vw] h-[60vw] max-w-[800px] max-h-[800px] bg-[#F2A65A] rounded-full blur-[140px] mix-blend-screen" 
+      />
+      
+      {/* Core bright spot */}
+      <motion.div 
+        style={{ x: useTransform(smoothX, [-1, 1], [-50, 50]), y: useTransform(smoothY, [-1, 1], [-50, 50]) }}
+        animate={{ opacity: [0.05, 0.1, 0.05] }}
+        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[40vw] h-[40vw] max-w-[500px] max-h-[500px] bg-white rounded-full blur-[150px] mix-blend-overlay" 
+      />
     </div>
   );
 }
@@ -84,7 +106,7 @@ export function Hero() {
 
   const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
   const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
-  const scale = useTransform(scrollYProgress, [0, 1], [1, 0.9]);
+  const scale = useTransform(scrollYProgress, [0, 1], [1, 0.95]);
 
   return (
     <section ref={ref} className="relative flex flex-col items-center justify-center min-h-[110vh] px-6 pt-20 overflow-hidden text-center">
@@ -95,24 +117,24 @@ export function Hero() {
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-        className="relative z-10 flex flex-col items-center max-w-4xl mt-[-10vh]"
+        className="relative z-30 flex flex-col items-center max-w-5xl mt-[-10vh]"
       >
         <motion.div 
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1, delay: 0.2 }}
-          className="inline-flex items-center gap-2 px-3 py-1 mb-10 text-xs font-medium border rounded-full text-[#A1A1AA] border-white/10 bg-white/5 backdrop-blur-md uppercase tracking-widest"
+          className="inline-flex items-center gap-2 px-4 py-2 mb-12 text-xs font-medium border rounded-full text-white/80 border-white/10 bg-white/5 backdrop-blur-xl shadow-[0_4px_24px_-8px_rgba(229,107,48,0.2)] uppercase tracking-[0.2em]"
         >
-          <span className="flex w-1.5 h-1.5 rounded-full bg-[#3B82F6] animate-pulse" />
+          <span className="flex w-1.5 h-1.5 rounded-full bg-[#E56B30] animate-pulse shadow-[0_0_10px_rgba(229,107,48,0.8)]" />
           Introducing Flux 2.0
         </motion.div>
         
-        <h1 className="text-7xl md:text-9xl font-light tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white via-white to-white/40 mb-8 leading-[0.9]">
+        <h1 className="text-7xl md:text-[10rem] font-light tracking-[-0.04em] text-transparent bg-clip-text bg-gradient-to-b from-white via-white/90 to-white/30 mb-8 leading-[0.85] drop-shadow-2xl">
           Code in <br className="md:hidden" />
-          <span className="font-medium bg-clip-text text-transparent bg-gradient-to-r from-[#7C3AED] to-[#3B82F6]">Flow.</span>
+          <span className="font-medium bg-clip-text text-transparent bg-gradient-to-r from-[#F2A65A] via-[#E56B30] to-[#E56B30] drop-shadow-[0_0_40px_rgba(229,107,48,0.3)]">Flow.</span>
         </h1>
         
-        <p className="text-xl md:text-2xl text-[#A1A1AA] mb-12 max-w-2xl leading-relaxed font-light tracking-tight">
+        <p className="text-xl md:text-2xl text-[#A1A1AA] mb-14 max-w-2xl leading-relaxed font-light tracking-tight mix-blend-plus-lighter">
           A fast, modern IDE built for developers. Experience lightning-fast performance, minimal distractions, and a smarter way to build software.
         </p>
         
@@ -120,7 +142,7 @@ export function Hero() {
           <MagneticButton 
             onMouseEnter={playHoverSound}
             onClick={playClickSound}
-            className="group relative inline-flex items-center justify-center gap-2 px-8 py-4 text-sm font-medium text-white transition-all rounded-full bg-gradient-to-r from-[#7C3AED] to-[#3B82F6] hover:opacity-90 shadow-[0_0_40px_-10px_rgba(124,58,237,0.5)]"
+            className="group relative inline-flex items-center justify-center gap-2 px-8 py-4 text-sm font-medium text-[#050507] transition-all rounded-full bg-gradient-to-b from-white to-white/90 hover:from-white hover:to-white shadow-[0_0_40px_-10px_rgba(229,107,48,0.3)] hover:shadow-[0_0_60px_-15px_rgba(229,107,48,0.5)] hover:scale-[1.02]"
           >
             Download for macOS
             <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
@@ -128,15 +150,31 @@ export function Hero() {
           <MagneticButton 
             onMouseEnter={playHoverSound}
             onClick={playClickSound}
-            className="px-8 py-4 text-sm font-medium text-white transition-all rounded-full bg-white/5 border border-white/10 hover:bg-white/10"
+            className="px-8 py-4 text-sm font-medium text-white transition-all rounded-full bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 backdrop-blur-md"
           >
             View Documentation
           </MagneticButton>
         </div>
         
-        <p className="mt-8 text-xs text-[#A1A1AA]/50 font-mono tracking-wider">
+        <p className="mt-10 text-[11px] text-[#A1A1AA]/40 font-mono tracking-[0.2em] uppercase">
           npm install -g flux-cli
         </p>
+      </motion.div>
+
+      {/* Scroll indicator */}
+      <motion.div 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.5, duration: 1 }}
+        className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-30"
+      >
+        <div className="w-[1px] h-12 bg-gradient-to-b from-white/0 via-white/20 to-white/0 overflow-hidden relative">
+          <motion.div 
+            animate={{ y: [-20, 48] }}
+            transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+            className="absolute top-0 left-0 w-full h-1/2 bg-gradient-to-b from-transparent via-[#E56B30] to-transparent"
+          />
+        </div>
       </motion.div>
     </section>
   );

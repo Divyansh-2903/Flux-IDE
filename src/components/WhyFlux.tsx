@@ -13,7 +13,7 @@ const benefits = [
 export function WhyFlux() {
   return (
     <section id="why-flux" className="py-32 px-6 mx-auto max-w-7xl relative">
-      <div className="absolute top-1/2 right-0 w-[500px] h-[500px] bg-[#7C3AED]/10 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute top-1/2 right-0 w-[500px] h-[500px] bg-[#E56B30]/10 rounded-full blur-[120px] pointer-events-none" />
       
       <div className="flex flex-col lg:flex-row gap-20 items-center">
         <motion.div 
@@ -31,7 +31,7 @@ export function WhyFlux() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             {benefits.map((benefit, index) => (
               <div key={index} className="flex items-center gap-4">
-                <CheckCircle2 className="w-5 h-5 text-[#3B82F6] shrink-0" />
+                <CheckCircle2 className="w-5 h-5 text-[#E56B30] shrink-0" />
                 <span className="text-base font-medium text-white/80">{benefit}</span>
               </div>
             ))}
@@ -46,7 +46,7 @@ export function WhyFlux() {
           className="flex-1 w-full"
         >
           <div className="p-10 rounded-[32px] bg-gradient-to-br from-[#111117] to-[#0B0B0F] border border-white/5 relative overflow-hidden shadow-2xl">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-[#3B82F6]/10 rounded-full blur-[80px]" />
+            <div className="absolute top-0 right-0 w-64 h-64 bg-[#F2A65A]/10 rounded-full blur-[80px]" />
             
             <div className="relative z-10 space-y-8">
               <div className="flex justify-between items-center pb-8 border-b border-white/5">
