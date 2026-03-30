@@ -1,5 +1,5 @@
-import { motion, useScroll, useTransform } from 'motion/react';
-import { useRef } from 'react';
+import { motion, useScroll, useTransform, useMotionValue, useSpring } from 'motion/react';
+import { useRef, useEffect } from 'react';
 
 export function Storytelling() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -8,31 +8,67 @@ export function Storytelling() {
     offset: ["start start", "end end"]
   });
 
-  // Scene 1: 0 to 0.33
-  const opacity1 = useTransform(scrollYProgress, [0, 0.15, 0.3], [0, 1, 0]);
-  const y1 = useTransform(scrollYProgress, [0, 0.15, 0.3], [50, 0, -50]);
+  // Mouse parallax setup
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
 
-  // Scene 2: 0.33 to 0.66
-  const opacity2 = useTransform(scrollYProgress, [0.33, 0.48, 0.63], [0, 1, 0]);
-  const y2 = useTransform(scrollYProgress, [0.33, 0.48, 0.63], [50, 0, -50]);
+  useEffect(() => {
+    let animationFrameId: number;
+    const handleMouseMove = (e: MouseEvent) => {
+      cancelAnimationFrame(animationFrameId);
+      animationFrameId = requestAnimationFrame(() => {
+        mouseX.set((e.clientX / window.innerWidth) * 2 - 1);
+        mouseY.set((e.clientY / window.innerHeight) * 2 - 1);
+      });
+    };
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      cancelAnimationFrame(animationFrameId);
+    };
+  }, [mouseX, mouseY]);
 
-  // Scene 3: 0.66 to 1.0
-  const opacity3 = useTransform(scrollYProgress, [0.66, 0.81, 1], [0, 1, 0]);
-  const y3 = useTransform(scrollYProgress, [0.66, 0.81, 1], [50, 0, -50]);
+  const springConfig = { damping: 40, stiffness: 50, mass: 1 };
+  const smoothX = useSpring(mouseX, springConfig);
+  const smoothY = useSpring(mouseY, springConfig);
 
-  // Visual scaling and rotation
-  const visualScale = useTransform(scrollYProgress, [0, 0.5, 1], [0.8, 1, 1.2]);
-  const visualRotateX = useTransform(scrollYProgress, [0, 1], [20, 0]);
+  const parallaxX = useTransform(smoothX, [-1, 1], [-30, 30]);
+  const parallaxY = useTransform(smoothY, [-1, 1], [-30, 30]);
+  const parallaxRotateX = useTransform(smoothY, [-1, 1], [10, -10]);
+  const parallaxRotateY = useTransform(smoothX, [-1, 1], [-10, 10]);
+
+  // Scene 1
+  const opacity1 = useTransform(scrollYProgress, [0, 0.15, 0.35], [0, 1, 0]);
+  const y1 = useTransform(scrollYProgress, [0, 0.15, 0.35], [50, 0, -50]);
+
+  // Scene 2
+  const opacity2 = useTransform(scrollYProgress, [0.25, 0.5, 0.7], [0, 1, 0]);
+  const y2 = useTransform(scrollYProgress, [0.25, 0.5, 0.7], [50, 0, -50]);
+
+  // Scene 3
+  const opacity3 = useTransform(scrollYProgress, [0.6, 0.85, 1], [0, 1, 0]);
+  const y3 = useTransform(scrollYProgress, [0.6, 0.85, 1], [50, 0, -50]);
+
+  // Visual scaling and base rotation from scroll
+  const visualScale = useTransform(scrollYProgress, [0, 0.5, 1], [0.8, 1, 1.1]);
+  const scrollRotateX = useTransform(scrollYProgress, [0, 1], [20, 0]);
   const visualOpacity = useTransform(scrollYProgress, [0, 0.1, 0.9, 1], [0, 1, 1, 0]);
 
   return (
-    <section ref={containerRef} className="relative h-[300vh] bg-[#0B0B0F]">
+    <section ref={containerRef} className="relative h-[200vh] bg-[#0B0B0F]">
       <div className="sticky top-0 flex items-center justify-center h-screen overflow-hidden">
         
-        {/* Background Visual */}
+        {/* Background Visual with Mouse Parallax */}
         <motion.div 
-          style={{ scale: visualScale, rotateX: visualRotateX, opacity: visualOpacity }}
-          className="absolute inset-0 flex items-center justify-center pointer-events-none perspective-[1000px]"
+          style={{ 
+            scale: visualScale, 
+            opacity: visualOpacity,
+            x: parallaxX,
+            y: parallaxY,
+            rotateX: parallaxRotateX,
+            rotateY: parallaxRotateY
+          }}
+          className="absolute inset-0 flex items-center justify-center pointer-events-none perspective-[1000px] will-change-transform"
         >
           <div className="w-[80vw] md:w-[60vw] h-[60vh] rounded-3xl border border-white/10 bg-gradient-to-b from-white/5 to-transparent backdrop-blur-3xl shadow-[0_0_100px_rgba(229,107,48,0.15)] flex flex-col overflow-hidden transform-style-3d">
             {/* Fake IDE Header */}

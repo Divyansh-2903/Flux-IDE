@@ -3,7 +3,7 @@ export function Footer() {
     <footer className="py-8 px-6 border-t border-white/10 text-center text-sm text-[#A1A1AA]">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
         <div className="flex items-center gap-2">
-          <div className="w-4 h-4 rounded bg-gradient-to-br from-[#7C3AED] to-[#3B82F6]" />
+          <div className="w-4 h-4 rounded bg-gradient-to-br from-[#E56B30] to-[#F2A65A]" />
           <span className="font-bold text-white">Flux</span>
         </div>
         <p>© 2026 Flux IDE. All rights reserved.</p>

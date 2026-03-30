@@ -21,11 +21,11 @@ export function FinalCTA() {
           onClick={playClickSound}
           className="group relative inline-flex items-center justify-center px-12 py-5 text-base font-medium text-white transition-all rounded-full bg-gradient-to-r from-[#E56B30] to-[#F2A65A] hover:opacity-90 hover:scale-105 active:scale-95 shadow-[0_0_40px_-10px_rgba(229,107,48,0.5)]"
         >
-          Download Now for macOS
+          Download for Windows
         </button>
         
         <p className="mt-8 text-sm text-[#A1A1AA]">
-          Also available for <a href="#" onMouseEnter={playHoverSound} onClick={playClickSound} className="text-white hover:underline">Windows</a> and <a href="#" onMouseEnter={playHoverSound} onClick={playClickSound} className="text-white hover:underline">Linux</a>.
+          macOS and Linux coming soon
         </p>
       </motion.div>
     </section>

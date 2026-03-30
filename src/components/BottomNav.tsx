@@ -1,20 +1,38 @@
-import { motion } from 'motion/react';
-import { Terminal, Layout, Zap, Download } from 'lucide-react';
+import { motion, useScroll, useMotionValueEvent } from 'motion/react';
+import { Terminal, Layout, Zap, Download, Users } from 'lucide-react';
 import { playHoverSound, playClickSound } from '../lib/audio';
+import { useState } from 'react';
 
 export function BottomNav() {
+  const { scrollY } = useScroll();
+  const [isVisible, setIsVisible] = useState(false);
+
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    // Show navbar only after scrolling past the hero section (approx 80vh)
+    if (latest > window.innerHeight * 0.8) {
+      setIsVisible(true);
+    } else {
+      setIsVisible(false);
+    }
+  });
+
   const navItems = [
     { icon: <Terminal className="w-4 h-4" />, label: "Overview", href: "#" },
     { icon: <Layout className="w-4 h-4" />, label: "Features", href: "#features" },
     { icon: <Zap className="w-4 h-4" />, label: "Why Flux", href: "#why-flux" },
+    { icon: <Users className="w-4 h-4" />, label: "Team", href: "#team" },
   ];
 
   return (
     <motion.div 
       initial={{ y: 100, opacity: 0, x: '-50%' }}
-      animate={{ y: 0, opacity: 1, x: '-50%' }}
-      transition={{ duration: 1, ease: [0.22, 1, 0.36, 1], delay: 0.5 }}
-      className="fixed bottom-8 left-1/2 z-50 flex items-center p-1.5 rounded-full bg-[#111117]/60 backdrop-blur-3xl border border-white/10 shadow-[0_20px_40px_-10px_rgba(0,0,0,0.5)]"
+      animate={{ 
+        y: isVisible ? 0 : 100, 
+        opacity: isVisible ? 1 : 0, 
+        x: '-50%' 
+      }}
+      transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+      className="fixed bottom-8 left-1/2 z-50 flex items-center p-1.5 rounded-full bg-[#111117]/60 backdrop-blur-3xl border border-white/10 shadow-[0_20px_40px_-10px_rgba(0,0,0,0.5)] pointer-events-auto"
     >
       <div className="flex items-center gap-1 px-2">
         {navItems.map((item, i) => (

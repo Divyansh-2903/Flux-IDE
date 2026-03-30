@@ -9,31 +9,39 @@ function InteractiveHeroBackground() {
   const mouseY = useMotionValue(0);
 
   useEffect(() => {
+    let animationFrameId: number;
     const handleMouseMove = (e: MouseEvent) => {
-      mouseX.set((e.clientX / window.innerWidth) * 2 - 1);
-      mouseY.set((e.clientY / window.innerHeight) * 2 - 1);
+      // Throttle mouse move with requestAnimationFrame for better performance
+      cancelAnimationFrame(animationFrameId);
+      animationFrameId = requestAnimationFrame(() => {
+        mouseX.set((e.clientX / window.innerWidth) * 2 - 1);
+        mouseY.set((e.clientY / window.innerHeight) * 2 - 1);
+      });
     };
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      cancelAnimationFrame(animationFrameId);
+    };
   }, [mouseX, mouseY]);
 
   const springConfig = { damping: 40, stiffness: 50, mass: 2 };
   const smoothX = useSpring(mouseX, springConfig);
   const smoothY = useSpring(mouseY, springConfig);
 
-  const x1 = useTransform(smoothX, [-1, 1], [-150, 150]);
-  const y1 = useTransform(smoothY, [-1, 1], [-150, 150]);
+  const x1 = useTransform(smoothX, [-1, 1], [-100, 100]);
+  const y1 = useTransform(smoothY, [-1, 1], [-100, 100]);
   
-  const x2 = useTransform(smoothX, [-1, 1], [150, -150]);
-  const y2 = useTransform(smoothY, [-1, 1], [150, -150]);
+  const x2 = useTransform(smoothX, [-1, 1], [100, -100]);
+  const y2 = useTransform(smoothY, [-1, 1], [100, -100]);
 
-  // Generate random particles
-  const particles = Array.from({ length: 20 }).map((_, i) => ({
+  // Reduce particles for better performance
+  const particles = Array.from({ length: 10 }).map((_, i) => ({
     id: i,
-    size: Math.random() * 4 + 1,
+    size: Math.random() * 3 + 1,
     x: Math.random() * 100,
     y: Math.random() * 100,
-    duration: Math.random() * 20 + 10,
+    duration: Math.random() * 20 + 15,
     delay: Math.random() * 5,
   }));
 
@@ -43,24 +51,24 @@ function InteractiveHeroBackground() {
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,#050507_100%)] z-10 opacity-90" />
       
       {/* Floating Particles */}
-      <div className="absolute inset-0 z-15">
+      <div className="absolute inset-0 z-15 will-change-transform">
         {particles.map((p) => (
           <motion.div
             key={p.id}
-            className="absolute rounded-full bg-white"
+            className="absolute rounded-full bg-white will-change-transform"
             style={{
               width: p.size,
               height: p.size,
               left: `${p.x}%`,
               top: `${p.y}%`,
-              opacity: 0.1 + Math.random() * 0.3,
-              boxShadow: `0 0 ${p.size * 2}px rgba(255,255,255,0.8)`,
-              x: useTransform(smoothX, [-1, 1], [-(p.size * 10), p.size * 10]),
-              y: useTransform(smoothY, [-1, 1], [-(p.size * 10), p.size * 10]),
+              opacity: 0.1 + Math.random() * 0.2,
+              boxShadow: `0 0 ${p.size * 2}px rgba(255,255,255,0.5)`,
+              x: useTransform(smoothX, [-1, 1], [-(p.size * 5), p.size * 5]),
+              y: useTransform(smoothY, [-1, 1], [-(p.size * 5), p.size * 5]),
             }}
             animate={{
-              y: [`${p.y}%`, `${p.y - 10}%`, `${p.y}%`],
-              opacity: [0.1, 0.4, 0.1],
+              y: [`${p.y}%`, `${p.y - 5}%`, `${p.y}%`],
+              opacity: [0.1, 0.3, 0.1],
             }}
             transition={{
               duration: p.duration,
@@ -72,26 +80,26 @@ function InteractiveHeroBackground() {
         ))}
       </div>
       
-      {/* Cinematic Light Leaks / Aurora */}
+      {/* Cinematic Light Leaks / Aurora - Optimized */}
       <motion.div 
         style={{ x: x1, y: y1 }}
-        animate={{ scale: [1, 1.1, 1], opacity: [0.15, 0.25, 0.15] }}
-        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute top-[-10%] left-[5%] w-[70vw] h-[70vw] max-w-[1000px] max-h-[1000px] bg-[#E56B30] rounded-full blur-[160px] mix-blend-screen" 
+        animate={{ scale: [1, 1.05, 1], opacity: [0.15, 0.2, 0.15] }}
+        transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute top-[-10%] left-[5%] w-[70vw] h-[70vw] max-w-[1000px] max-h-[1000px] bg-[#E56B30] rounded-full blur-[120px] mix-blend-screen will-change-transform" 
       />
       <motion.div 
         style={{ x: x2, y: y2 }}
-        animate={{ scale: [1, 1.15, 1], opacity: [0.1, 0.2, 0.1] }}
-        transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-        className="absolute bottom-[-10%] right-[5%] w-[60vw] h-[60vw] max-w-[800px] max-h-[800px] bg-[#F2A65A] rounded-full blur-[140px] mix-blend-screen" 
+        animate={{ scale: [1, 1.08, 1], opacity: [0.1, 0.15, 0.1] }}
+        transition={{ duration: 18, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+        className="absolute bottom-[-10%] right-[5%] w-[60vw] h-[60vw] max-w-[800px] max-h-[800px] bg-[#F2A65A] rounded-full blur-[100px] mix-blend-screen will-change-transform" 
       />
       
       {/* Core bright spot */}
       <motion.div 
-        style={{ x: useTransform(smoothX, [-1, 1], [-50, 50]), y: useTransform(smoothY, [-1, 1], [-50, 50]) }}
-        animate={{ opacity: [0.05, 0.1, 0.05] }}
-        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[40vw] h-[40vw] max-w-[500px] max-h-[500px] bg-white rounded-full blur-[150px] mix-blend-overlay" 
+        style={{ x: useTransform(smoothX, [-1, 1], [-30, 30]), y: useTransform(smoothY, [-1, 1], [-30, 30]) }}
+        animate={{ opacity: [0.05, 0.08, 0.05] }}
+        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[40vw] h-[40vw] max-w-[500px] max-h-[500px] bg-white rounded-full blur-[120px] mix-blend-overlay will-change-transform" 
       />
     </div>
   );
@@ -117,7 +125,7 @@ export function Hero() {
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-        className="relative z-30 flex flex-col items-center max-w-5xl mt-[-10vh]"
+        className="relative z-30 flex flex-col items-center max-w-5xl mt-[-10vh] will-change-transform"
       >
         <motion.div 
           initial={{ opacity: 0, scale: 0.9 }}
@@ -138,27 +146,42 @@ export function Hero() {
           A fast, modern IDE built for developers. Experience lightning-fast performance, minimal distractions, and a smarter way to build software.
         </p>
         
-        <div className="flex flex-col sm:flex-row items-center gap-6">
-          <MagneticButton 
-            onMouseEnter={playHoverSound}
-            onClick={playClickSound}
-            className="group relative inline-flex items-center justify-center gap-2 px-8 py-4 text-sm font-medium text-[#050507] transition-all rounded-full bg-gradient-to-b from-white to-white/90 hover:from-white hover:to-white shadow-[0_0_40px_-10px_rgba(229,107,48,0.3)] hover:shadow-[0_0_60px_-15px_rgba(229,107,48,0.5)] hover:scale-[1.02]"
-          >
-            Download for macOS
-            <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-          </MagneticButton>
-          <MagneticButton 
-            onMouseEnter={playHoverSound}
-            onClick={playClickSound}
-            className="px-8 py-4 text-sm font-medium text-white transition-all rounded-full bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 backdrop-blur-md"
-          >
-            View Documentation
-          </MagneticButton>
+        <div className="flex flex-col items-center gap-4">
+          <div className="flex flex-col sm:flex-row items-center gap-6">
+            <MagneticButton 
+              onMouseEnter={playHoverSound}
+              onClick={playClickSound}
+              className="group relative inline-flex items-center justify-center gap-2 px-8 py-4 text-sm font-medium text-[#050507] transition-all rounded-full bg-gradient-to-b from-white to-white/90 hover:from-white hover:to-white shadow-[0_0_40px_-10px_rgba(229,107,48,0.3)] hover:shadow-[0_0_60px_-15px_rgba(229,107,48,0.5)] hover:scale-[1.02]"
+            >
+              Download for Windows
+              <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+            </MagneticButton>
+            <MagneticButton 
+              onMouseEnter={playHoverSound}
+              onClick={playClickSound}
+              className="px-8 py-4 text-sm font-medium text-white transition-all rounded-full bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 backdrop-blur-md"
+            >
+              View Documentation
+            </MagneticButton>
+          </div>
+          <p className="text-sm text-[#A1A1AA]/60 font-light">
+            macOS and Linux coming soon
+          </p>
         </div>
         
-        <p className="mt-10 text-[11px] text-[#A1A1AA]/40 font-mono tracking-[0.2em] uppercase">
-          npm install -g flux-cli
-        </p>
+        {/* Terminal Outline Command */}
+        <div className="mt-16 p-4 rounded-xl bg-[#050507]/80 backdrop-blur-md border border-white/10 shadow-2xl flex flex-col items-start w-full max-w-sm mx-auto relative overflow-hidden group">
+          <div className="absolute inset-0 bg-gradient-to-r from-[#E56B30]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+          <div className="flex gap-1.5 mb-3">
+            <div className="w-2.5 h-2.5 rounded-full bg-[#FF5F56] border border-black/20" />
+            <div className="w-2.5 h-2.5 rounded-full bg-[#FFBD2E] border border-black/20" />
+            <div className="w-2.5 h-2.5 rounded-full bg-[#27C93F] border border-black/20" />
+          </div>
+          <div className="flex items-center gap-3 font-mono text-[13px] tracking-wide">
+            <span className="text-[#E56B30] font-bold">~</span>
+            <span className="text-white/90">npm install -g flux-cli</span>
+          </div>
+        </div>
       </motion.div>
 
       {/* Scroll indicator */}

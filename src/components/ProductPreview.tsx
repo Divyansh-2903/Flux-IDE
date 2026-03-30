@@ -1,22 +1,59 @@
-import { motion, useScroll, useTransform } from 'motion/react';
-import { useRef } from 'react';
+import { motion, useScroll, useTransform, useMotionValue, useSpring } from 'motion/react';
+import { useRef, useEffect } from 'react';
 
 export function ProductPreview() {
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: ["start end", "end center"]
+    offset: ["start 95%", "center center"]
   });
 
-  const scale = useTransform(scrollYProgress, [0, 1], [0.8, 1]);
-  const opacity = useTransform(scrollYProgress, [0, 0.5], [0, 1]);
-  const rotateX = useTransform(scrollYProgress, [0, 1], [15, 0]);
+  const scale = useTransform(scrollYProgress, [0, 1], [0.85, 1]);
+  const opacity = useTransform(scrollYProgress, [0, 1], [0.2, 1]);
+  const rotateX = useTransform(scrollYProgress, [0, 1], [10, 0]);
+
+  // Mouse parallax setup
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+  useEffect(() => {
+    let animationFrameId: number;
+    const handleMouseMove = (e: MouseEvent) => {
+      cancelAnimationFrame(animationFrameId);
+      animationFrameId = requestAnimationFrame(() => {
+        mouseX.set((e.clientX / window.innerWidth) * 2 - 1);
+        mouseY.set((e.clientY / window.innerHeight) * 2 - 1);
+      });
+    };
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      cancelAnimationFrame(animationFrameId);
+    };
+  }, [mouseX, mouseY]);
+
+  const springConfig = { damping: 40, stiffness: 50, mass: 1 };
+  const smoothX = useSpring(mouseX, springConfig);
+  const smoothY = useSpring(mouseY, springConfig);
+
+  const parallaxX = useTransform(smoothX, [-1, 1], [-15, 15]);
+  const parallaxY = useTransform(smoothY, [-1, 1], [-15, 15]);
+  const parallaxRotateX = useTransform(smoothY, [-1, 1], [3, -3]);
+  const parallaxRotateY = useTransform(smoothX, [-1, 1], [-3, 3]);
 
   return (
     <section ref={ref} className="relative px-6 pb-48 mx-auto max-w-7xl perspective-[2000px]">
       <motion.div
-        style={{ scale, opacity, rotateX, transformPerspective: 2000 }}
-        className="relative z-10 rounded-2xl border border-white/10 bg-[#0B0B0F]/80 backdrop-blur-2xl overflow-hidden shadow-[0_0_120px_-20px_rgba(229,107,48,0.2)] ring-1 ring-white/5"
+        style={{ 
+          scale, 
+          opacity, 
+          rotateX,
+          x: parallaxX,
+          y: parallaxY,
+          rotateY: parallaxRotateY,
+          transformPerspective: 2000 
+        }}
+        className="relative z-10 rounded-2xl border border-white/10 bg-[#0B0B0F]/80 backdrop-blur-2xl overflow-hidden shadow-[0_0_120px_-20px_rgba(229,107,48,0.2)] ring-1 ring-white/5 will-change-transform"
       >
         {/* Editor Header */}
         <div className="flex items-center px-4 py-4 border-b border-white/5 bg-gradient-to-b from-white/[0.04] to-transparent">
