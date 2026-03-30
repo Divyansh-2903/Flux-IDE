@@ -1,8 +1,9 @@
 import { motion } from 'motion/react';
+import { playHoverSound, playClickSound } from '../lib/audio';
 
 export function FinalCTA() {
   return (
-    <section className="py-32 px-6 relative overflow-hidden">
+    <section className="py-48 px-6 relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#7C3AED]/5 pointer-events-none" />
       
       <motion.div 
@@ -12,15 +13,19 @@ export function FinalCTA() {
         transition={{ duration: 0.8 }}
         className="relative z-10 max-w-3xl mx-auto text-center"
       >
-        <h2 className="text-4xl md:text-6xl font-bold tracking-tight mb-6">Ready to code in flow?</h2>
-        <p className="text-[#A1A1AA] text-lg mb-10">Join thousands of developers building the future with Flux.</p>
+        <h2 className="text-5xl md:text-7xl font-light tracking-tighter mb-8">Ready to code in <span className="font-medium">flow?</span></h2>
+        <p className="text-[#A1A1AA] text-xl mb-12 font-light tracking-tight">Join thousands of developers building the future with Flux.</p>
         
-        <button className="group relative inline-flex items-center justify-center px-10 py-5 text-base font-medium text-white transition-all rounded-full bg-gradient-to-r from-[#7C3AED] to-[#3B82F6] hover:opacity-90 hover:scale-105 active:scale-95 shadow-[0_0_40px_-10px_rgba(124,58,237,0.5)]">
+        <button 
+          onMouseEnter={playHoverSound}
+          onClick={playClickSound}
+          className="group relative inline-flex items-center justify-center px-12 py-5 text-base font-medium text-white transition-all rounded-full bg-gradient-to-r from-[#7C3AED] to-[#3B82F6] hover:opacity-90 hover:scale-105 active:scale-95 shadow-[0_0_40px_-10px_rgba(124,58,237,0.5)]"
+        >
           Download Now for macOS
         </button>
         
-        <p className="mt-6 text-sm text-[#A1A1AA]">
-          Also available for <a href="#" className="text-white hover:underline">Windows</a> and <a href="#" className="text-white hover:underline">Linux</a>.
+        <p className="mt-8 text-sm text-[#A1A1AA]">
+          Also available for <a href="#" onMouseEnter={playHoverSound} onClick={playClickSound} className="text-white hover:underline">Windows</a> and <a href="#" onMouseEnter={playHoverSound} onClick={playClickSound} className="text-white hover:underline">Linux</a>.
         </p>
       </motion.div>
     </section>
