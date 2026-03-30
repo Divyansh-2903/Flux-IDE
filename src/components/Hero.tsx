@@ -134,7 +134,7 @@ export function Hero() {
           className="inline-flex items-center gap-2 px-4 py-2 mb-12 text-xs font-medium border rounded-full text-white/80 border-white/10 bg-white/5 backdrop-blur-xl shadow-[0_4px_24px_-8px_rgba(229,107,48,0.2)] uppercase tracking-[0.2em]"
         >
           <span className="flex w-1.5 h-1.5 rounded-full bg-[#E56B30] animate-pulse shadow-[0_0_10px_rgba(229,107,48,0.8)]" />
-          Introducing Flux 2.0
+          Introducing Flux Agentic IDE
         </motion.div>
         
         <h1 className="text-7xl md:text-[10rem] font-light tracking-[-0.04em] text-transparent bg-clip-text bg-gradient-to-b from-white via-white/90 to-white/30 mb-8 leading-[0.85] drop-shadow-2xl">

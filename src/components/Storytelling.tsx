@@ -32,22 +32,25 @@ export function Storytelling() {
   const smoothX = useSpring(mouseX, springConfig);
   const smoothY = useSpring(mouseY, springConfig);
 
-  const parallaxX = useTransform(smoothX, [-1, 1], [-30, 30]);
-  const parallaxY = useTransform(smoothY, [-1, 1], [-30, 30]);
-  const parallaxRotateX = useTransform(smoothY, [-1, 1], [10, -10]);
-  const parallaxRotateY = useTransform(smoothX, [-1, 1], [-10, 10]);
+  const parallaxX = useTransform(smoothX, [-1, 1], [-60, 60]);
+  const parallaxY = useTransform(smoothY, [-1, 1], [-60, 60]);
+  const parallaxRotateX = useTransform(smoothY, [-1, 1], [15, -15]);
+  const parallaxRotateY = useTransform(smoothX, [-1, 1], [-15, 15]);
+
+  const textParallaxX = useTransform(smoothX, [-1, 1], [30, -30]);
+  const textParallaxY = useTransform(smoothY, [-1, 1], [30, -30]);
 
   // Scene 1
-  const opacity1 = useTransform(scrollYProgress, [0, 0.15, 0.35], [0, 1, 0]);
-  const y1 = useTransform(scrollYProgress, [0, 0.15, 0.35], [50, 0, -50]);
+  const opacity1 = useTransform(scrollYProgress, [0, 0.15, 0.3], [0, 1, 0]);
+  const y1 = useTransform(scrollYProgress, [0, 0.15, 0.3], [50, 0, -50]);
 
   // Scene 2
-  const opacity2 = useTransform(scrollYProgress, [0.25, 0.5, 0.7], [0, 1, 0]);
-  const y2 = useTransform(scrollYProgress, [0.25, 0.5, 0.7], [50, 0, -50]);
+  const opacity2 = useTransform(scrollYProgress, [0.35, 0.5, 0.65], [0, 1, 0]);
+  const y2 = useTransform(scrollYProgress, [0.35, 0.5, 0.65], [50, 0, -50]);
 
   // Scene 3
-  const opacity3 = useTransform(scrollYProgress, [0.6, 0.85, 1], [0, 1, 0]);
-  const y3 = useTransform(scrollYProgress, [0.6, 0.85, 1], [50, 0, -50]);
+  const opacity3 = useTransform(scrollYProgress, [0.7, 0.85, 1], [0, 1, 0]);
+  const y3 = useTransform(scrollYProgress, [0.7, 0.85, 1], [50, 0, -50]);
 
   // Visual scaling and base rotation from scroll
   const visualScale = useTransform(scrollYProgress, [0, 0.5, 1], [0.8, 1, 1.1]);
@@ -55,7 +58,7 @@ export function Storytelling() {
   const visualOpacity = useTransform(scrollYProgress, [0, 0.1, 0.9, 1], [0, 1, 1, 0]);
 
   return (
-    <section ref={containerRef} className="relative h-[200vh] bg-[#0B0B0F]">
+    <section ref={containerRef} className="relative h-[300vh] bg-[#0B0B0F]">
       <div className="sticky top-0 flex items-center justify-center h-screen overflow-hidden">
         
         {/* Background Visual with Mouse Parallax */}
@@ -95,7 +98,10 @@ export function Storytelling() {
         </motion.div>
 
         {/* Text Overlays */}
-        <div className="relative z-10 flex flex-col items-center justify-center w-full max-w-4xl px-6 text-center pointer-events-none">
+        <motion.div 
+          style={{ x: textParallaxX, y: textParallaxY }}
+          className="relative z-10 flex flex-col items-center justify-center w-full max-w-4xl px-6 text-center pointer-events-none"
+        >
           <motion.div style={{ opacity: opacity1, y: y1, position: 'absolute' }} className="w-full">
             <h2 className="text-5xl md:text-7xl font-light tracking-tighter text-white mb-6">
               The IDE, <span className="font-medium bg-clip-text text-transparent bg-gradient-to-r from-[#F2A65A] to-[#E56B30]">reimagined.</span>
@@ -116,7 +122,7 @@ export function Storytelling() {
             </h2>
             <p className="text-xl text-[#A1A1AA] font-light max-w-2xl mx-auto">Native performance meets limitless extensibility.</p>
           </motion.div>
-        </div>
+        </motion.div>
 
       </div>
     </section>

@@ -1,4 +1,4 @@
-import { Linkedin, Instagram, Code, Megaphone, Github } from 'lucide-react';
+import { Linkedin, Instagram, Code, Megaphone, Github, Palette } from 'lucide-react';
 
 export function Team() {
   return (
@@ -45,7 +45,7 @@ export function Team() {
           </div>
           <h2 className="text-2xl font-medium text-center mb-1">Divyansh Saxena</h2>
           <p className="text-[#E56B30] text-sm font-mono text-center mb-6 flex items-center justify-center gap-2">
-            <Code size={14} /> Co-founder & Developer
+            <Palette size={14} /> Co-founder & Creative Designer
           </p>
           <p className="text-[#A1A1AA] text-center text-sm mb-8 flex-1 font-light leading-relaxed">
             The mind behind Flux — from the first line of code to the final design, obsessed with building tools that are fast, private, and beautiful.
