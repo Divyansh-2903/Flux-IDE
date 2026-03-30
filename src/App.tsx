@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { useEffect } from 'react';
 import { Hero } from './components/Hero';
 import { Storytelling } from './components/Storytelling';
 import { ProductPreview } from './components/ProductPreview';
@@ -12,8 +13,29 @@ import { FinalCTA } from './components/FinalCTA';
 import { Footer } from './components/Footer';
 import { CustomCursor } from './components/CustomCursor';
 import { BottomNav } from './components/BottomNav';
+import { initAudio, startBackgroundMusic } from './lib/audio';
 
 export default function App() {
+  useEffect(() => {
+    const unlockAudio = () => {
+      initAudio();
+      startBackgroundMusic();
+      window.removeEventListener('click', unlockAudio);
+      window.removeEventListener('touchstart', unlockAudio);
+      window.removeEventListener('keydown', unlockAudio);
+    };
+
+    window.addEventListener('click', unlockAudio);
+    window.addEventListener('touchstart', unlockAudio);
+    window.addEventListener('keydown', unlockAudio);
+
+    return () => {
+      window.removeEventListener('click', unlockAudio);
+      window.removeEventListener('touchstart', unlockAudio);
+      window.removeEventListener('keydown', unlockAudio);
+    };
+  }, []);
+
   return (
     <div className="min-h-screen bg-[#0B0B0F] text-white selection:bg-[#3B82F6]/30 relative">
       {/* Global Noise Texture */}
